@@ -48,6 +48,13 @@ node dist/cli/index.js analyze
 ```
 *Bu komut eksik uç noktaları (endpoints), eksik test dosyalarını ve güvenlik/doğrulama risklerini terminalde renklendirilmiş olarak gösterir ve `.specpilot/api-gap-report.md` dosyasına kaydeder.*
 
+### 3. İstemci Dokümantasyonu ve Tip Oluşturucu (Doc)
+Spesifikasyondaki veri modellerini otomatik olarak TypeScript arayüzlerine dönüştürmek, örnek istek/yanıt JSON şablonlarını üretmek ve frontend/mobil ekipleri için entegrasyon kılavuzu hazırlamak için:
+```bash
+node dist/cli/index.js doc
+```
+*Bu komut `.specpilot/client-integration-guide.md` dosyasını oluşturur. Mobil veya frontend ekipleriniz bu dokümandaki veri tiplerini ve JSON şablonlarını doğrudan entegrasyon sürecinde kullanabilir.*
+
 ---
 
 ## 🤖 MCP (Model Context Protocol) Server Kullanımı
@@ -57,6 +64,7 @@ SpecPilot'ı bir **MCP Server** olarak çalıştırıp AI asistanınıza bağlay
 ### MCP Araçları (Tools)
 - `analyze_openapi`: OpenAPI spesifikasyonu ile kod arasındaki farkları analiz eder (eksik endpoint'ler, riskli endpoint'ler vb. raporlar).
 - `find_missing_tests`: Test dosyası yazılmamış API rotalarını bulur.
+- `generate_integration_guide`: Spesifikasyon dosyasını okuyarak frontend/mobil geliştiriciler için tüm veri modellerini, TypeScript tiplerini ve istek/yanıt JSON örneklerini barındıran tam entegrasyon kılavuzunu Markdown biçiminde döndürür.
 
 ### Client Konfigürasyonları
 

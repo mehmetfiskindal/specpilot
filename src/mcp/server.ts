@@ -10,6 +10,7 @@ import { parseOpenApi } from '../analyzer/openapi.js';
 import { scanCodebase } from '../analyzer/code-scanner.js';
 import { analyzeGaps } from '../analyzer/gap-analyzer.js';
 import { detectFramework } from '../analyzer/framework-detector.js';
+import { generateClientDocs } from '../analyzer/doc-generator.js';
 
 export function startMcpServer() {
   const server = new Server(
@@ -49,6 +50,16 @@ export function startMcpServer() {
               specPath: { type: 'string', description: 'Override path to the OpenAPI specification (e.g. openapi.yaml)' },
               srcDir: { type: 'string', description: 'Override path to the source folder (e.g. src)' },
               framework: { type: 'string', enum: ['express', 'nestjs'], description: 'Override backend framework' }
+            }
+          }
+        },
+        {
+          name: 'generate_integration_guide',
+          description: 'Generates a detailed Markdown guide of API endpoints, parameters, mock request/response JSON payloads, and TypeScript definitions directly from the OpenAPI specification.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              specPath: { type: 'string', description: 'Override path to the OpenAPI specification (e.g. openapi.yaml)' }
             }
           }
         }
@@ -150,6 +161,13 @@ export function startMcpServer() {
           });
         }
 
+        return {
+          content: [{ type: 'text', text }]
+        };
+      }
+
+      if (name === 'generate_integration_guide') {
+        const text = generateClientDocs(config.specPath);
         return {
           content: [{ type: 'text', text }]
         };

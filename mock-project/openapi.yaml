@@ -11,10 +11,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/LoginRequest'
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         '400':
           description: Bad Request
   /auth/refresh:
@@ -35,6 +39,10 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         '401':
           description: Unauthorized
   /items:
@@ -43,6 +51,12 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
     post:
       summary: Create an item
       security:
@@ -52,10 +66,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/CreateItemRequest'
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
         '400':
           description: Bad Request
         '401':
@@ -65,3 +83,59 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - role
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          type: string
+          enum:
+            - admin
+            - user
+    Item:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    CreateItemRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string

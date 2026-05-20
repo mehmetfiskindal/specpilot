@@ -11,6 +11,7 @@ import { scanCodebase } from '../analyzer/code-scanner.js';
 import { analyzeGaps } from '../analyzer/gap-analyzer.js';
 import { SpecPilotConfig } from '../analyzer/types.js';
 import { startMcpServer } from '../mcp/server.js';
+import { generateClientDocs } from '../analyzer/doc-generator.js';
 
 const program = new Command();
 
@@ -182,6 +183,47 @@ program
 
     } catch (err: any) {
       console.error(pc.red(`Error during analysis: ${err.message}`));
+      process.exit(1);
+    }
+  });
+
+// Command: Doc Generator
+program
+  .command('doc')
+  .description('Generate client integration guide and TypeScript types from OpenAPI spec')
+  .option('-c, --config <path>', 'Path to config JSON', '.specpilot/config.json')
+  .option('-o, --output <path>', 'Output markdown file path')
+  .action(async (options) => {
+    const configPath = path.resolve(options.config);
+    let config: SpecPilotConfig;
+
+    if (!fs.existsSync(configPath)) {
+      console.log(pc.yellow(`⚠️ Config file not found at ${options.config}. Running autodetect defaults...`));
+      config = {
+        specPath: 'openapi.yaml',
+        srcDir: 'src',
+        framework: detectFramework('.'),
+        exclude: []
+      };
+    } else {
+      config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    }
+
+    const outputPath = options.output || config.docOutputPath || '.specpilot/client-integration-guide.md';
+    console.log(pc.cyan(`📄 Generating client integration documentation...`));
+    console.log(`Spec file: ${pc.bold(config.specPath)}`);
+    console.log(`Target output: ${pc.bold(outputPath)}`);
+
+    try {
+      const markdown = generateClientDocs(config.specPath);
+      const outDir = path.dirname(outputPath);
+      if (!fs.existsSync(outDir)) {
+        fs.mkdirSync(outDir, { recursive: true });
+      }
+      fs.writeFileSync(outputPath, markdown, 'utf-8');
+      console.log(pc.green(`✔ Successfully generated client integration guide at ${outputPath}`));
+    } catch (err: any) {
+      console.error(pc.red(`Error generating documentation: ${err.message}`));
       process.exit(1);
     }
   });

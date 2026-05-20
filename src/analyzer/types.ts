@@ -4,6 +4,8 @@ export interface SpecPilotConfig {
   framework: 'express' | 'nestjs' | 'auto';
   exclude: string[];     // Glob patterns to exclude (e.g. ['**/node_modules/**', '**/*.test.ts'])
   testDir?: string;      // Path to tests (e.g. ./tests)
+  docOutputPath?: string; // Path to save generated client documentation
+  clientLanguage?: 'typescript' | 'kotlin' | 'swift';
 }
 
 export interface ApiEndpoint {
