@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: Mock API
+  version: 1.0.0
+paths:
+  /auth/login:
+    post:
+      summary: User Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+  /auth/refresh:
+    post:
+      summary: Refresh Token
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+  /users/me:
+    get:
+      summary: Get current user profile
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized
+  /items:
+    get:
+      summary: Get items list
+      responses:
+        '200':
+          description: Success
+    post:
+      summary: Create an item
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

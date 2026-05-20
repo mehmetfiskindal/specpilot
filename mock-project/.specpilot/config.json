@@ -1,0 +1,9 @@
+{
+  "specPath": "openapi.yaml",
+  "srcDir": "src",
+  "framework": "express",
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**"
+  ]
+}

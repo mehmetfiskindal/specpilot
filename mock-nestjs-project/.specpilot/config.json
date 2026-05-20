@@ -1,0 +1,9 @@
+{
+  "specPath": "openapi.yaml",
+  "srcDir": "src",
+  "framework": "nestjs",
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**"
+  ]
+}

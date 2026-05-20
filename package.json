@@ -1,0 +1,36 @@
+{
+  "name": "specpilot",
+  "version": "1.0.0",
+  "description": "AI-Powered API Gap Analysis & Developer Kit",
+  "type": "module",
+  "main": "./dist/cli/index.js",
+  "bin": {
+    "specpilot": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli/index.js",
+    "dev": "tsx src/cli/index.ts"
+  },
+  "keywords": [
+    "openapi",
+    "mcp",
+    "mcp-server",
+    "api-gap",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "commander": "^14.0.3",
+    "fast-glob": "^3.3.3",
+    "picocolors": "^1.1.1",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3"
+  }
+}

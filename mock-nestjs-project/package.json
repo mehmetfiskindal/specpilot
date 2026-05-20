@@ -1,0 +1,7 @@
+{
+  "name": "mock-nestjs-api",
+  "version": "1.0.0",
+  "dependencies": {
+    "@nestjs/core": "^10.0.0"
+  }
+}
